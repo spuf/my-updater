@@ -2,3 +2,5 @@ npm
 ios-deploy
 react-native-cli
 react-native-git-upgrade
+exp
+prettier

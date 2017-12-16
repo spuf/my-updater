@@ -20,7 +20,7 @@ brew prune
 [ -n "$NPM_UNINSTALL" ] && npm -g uninstall $NPM_UNINSTALL
 npm install -g --loglevel error $NPM_INSTALL > /dev/null
 npm update -g --loglevel error
-#npm cache clean --force --loglevel error
+npm cache clean --force --loglevel error
 
 yarn global upgrade
 #yarn cache clean
