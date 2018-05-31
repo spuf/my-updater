@@ -1,6 +1,14 @@
 #!/bin/bash
 
-CONF_DIR=$(dirname $(readlink $0 || $0))
+# xcode-select --install
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+CONF_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 
 NPM_LIST="$CONF_DIR/npm.txt"
 GEM_LIST="$CONF_DIR/Gemfile"
@@ -17,6 +25,9 @@ brew upgrade
 brew cleanup -s
 brew prune
 
+brew cask upgrade
+brew cask cleanup
+
 [ -n "$NPM_UNINSTALL" ] && npm -g uninstall $NPM_UNINSTALL
 npm install -g --loglevel error $NPM_INSTALL > /dev/null
 npm update -g --loglevel error
@@ -25,7 +36,6 @@ npm cache clean --force --loglevel error
 yarn global upgrade
 #yarn cache clean
 
-brew link --overwrite ruby
 gem update bundler
 bundle install --system --clean --force --gemfile=$GEM_LIST --quiet
 gem cleanup
