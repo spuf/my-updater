@@ -13,7 +13,6 @@ CONF_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 NPM_LIST="$CONF_DIR/npm.txt"
 GEM_LIST="$CONF_DIR/Gemfile"
 
-NPM_UNINSTALL=$(npm -g ls --depth 0 --parseable | grep node_modules | xargs -I '{}' basename '{}' | fgrep -v -f $NPM_LIST)
 NPM_INSTALL=$(cat $NPM_LIST)
 
 rm -f "$GEM_LIST.lock"
@@ -28,7 +27,6 @@ brew prune
 brew cask upgrade
 brew cask cleanup
 
-[ -n "$NPM_UNINSTALL" ] && npm -g uninstall $NPM_UNINSTALL
 npm install -g --loglevel error $NPM_INSTALL > /dev/null
 npm update -g --loglevel error
 npm cache clean --force --loglevel error
@@ -43,4 +41,3 @@ gem cleanup
 vagrant plugin update || vagrant plugin expunge --reinstall
 vagrant box list | awk '{ print $1 }' | xargs -I {} vagrant box update --box {} || true
 vagrant box prune
-vagrant version
