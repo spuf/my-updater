@@ -21,11 +21,9 @@ set -ex
 
 brew update
 brew upgrade
+brew cask upgrade
 brew cleanup -s
 brew prune
-
-brew cask upgrade
-brew cask cleanup
 
 npm install -g --loglevel error $NPM_INSTALL > /dev/null
 npm update -g --loglevel error
