@@ -21,19 +21,20 @@ set -ex
 
 brew update
 brew upgrade
-brew cask upgrade
-brew cleanup -s
-brew prune
+brew cask upgrade # --greedy
+brew cleanup
+# rm -rf "$(brew --cache)"
 
 npm install -g --loglevel error $NPM_INSTALL > /dev/null
 npm update -g --loglevel error
-npm cache clean --force --loglevel error
+# npm cache clean --force --loglevel error
 
 yarn global upgrade
-#yarn cache clean
+# yarn cache clean
 
+gem install bundler
 gem update bundler
-bundle install --system --clean --force --gemfile=$GEM_LIST --quiet
+bundle install --system --clean --force --gemfile=$GEM_LIST
 gem cleanup
 
 vagrant plugin update || vagrant plugin expunge --reinstall
